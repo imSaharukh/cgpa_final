@@ -2,6 +2,7 @@ import 'package:cgpa_calculator/widget/customcard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './provider/cgpa.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 void main() {
   runApp(
@@ -39,48 +40,62 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final cgpa = Provider.of<CGPA>(context);
-    int indexs;
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
-            Column(
-              children: [
-                Expanded(
-                  child: Consumer<CGPA>(builder: (context, cgpa, _) {
-                    return Form(
-                      key: _formKey,
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: cgpa.details.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          indexs = index;
-
-                          return Dismissible(
-                            key: UniqueKey(),
-                            onDismissed: (direction) {
-                              cgpa.details.remove(index);
-                              // cgpa.details[index] = Details();
-
-                              print(cgpa.details.length);
-                            },
-                            child: CustomCard(
-                                key: UniqueKey(),
-                                index: index,
-                                cgpa: cgpa,
-                                namecontroller: new TextEditingController(),
-                                cgpacontroller: new TextEditingController(),
-                                crcontroller: new TextEditingController()),
-                          );
-                        },
-                      ),
-                    );
-                  }),
-                ),
-              ],
-            ),
+            Consumer<CGPA>(builder: (context, cgpa, _) {
+              return Column(
+                children: [
+                  CircularPercentIndicator(
+                    radius: 130.0,
+                    animation: true,
+                    animationDuration: 1200,
+                    lineWidth: 15.0,
+                    percent: 0.4,
+                    center: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        new Text(
+                          "Total CGPA",
+                          style: new TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 12.0),
+                        ),
+                        Text(
+                          cgpa.finalcgpa.toStringAsFixed(2),
+                        )
+                      ],
+                    ),
+                    circularStrokeCap: CircularStrokeCap.butt,
+                    backgroundColor: Colors.yellow,
+                    progressColor: Colors.red,
+                  ),
+                  Expanded(
+                      child: Form(
+                    key: _formKey,
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: cgpa.courses.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Dismissible(
+                          key: Key(
+                            cgpa.getKeyValue(index),
+                          ),
+                          onDismissed: (direction) {
+                            cgpa.remove(index);
+                            print(cgpa.courses.length);
+                          },
+                          child: CustomCard(
+                            course: cgpa.getCourse(index),
+                          ),
+                        );
+                      },
+                    ),
+                  )),
+                ],
+              );
+            }),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
@@ -88,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: FloatingActionButton(
                   child: Icon(Icons.add),
                   onPressed: () {
-                    Provider.of<CGPA>(context, listen: false).add(indexs);
+                    Provider.of<CGPA>(context, listen: false).add();
                     // print(cgpa.details.length);
                     //  cgpa.details[indexs] = Details();
                   },
@@ -100,9 +115,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: OutlineButton(
         onPressed: () {
-          // for (var item in cgpa.details) {
-          //   print(item.credit);
-          // }
+          if (_formKey.currentState.validate()) {
+            _formKey.currentState.save();
+            var send = Provider.of<CGPA>(context, listen: false).courses;
+            Provider.of<CGPA>(context, listen: false).calculateCGPA(send);
+          }
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),

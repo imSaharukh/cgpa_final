@@ -1,35 +1,53 @@
 import 'package:cgpa_calculator/provider/cgpa.dart';
 import 'package:flutter/material.dart';
 
-class CustomCard extends StatelessWidget {
-  CustomCard(
-      {this.index,
-      this.cgpa,
-      this.namecontroller,
-      this.cgpacontroller,
-      this.crcontroller,
-      this.key});
+class CustomCard extends StatefulWidget {
+  CustomCard({@required this.course});
 
-  final int index;
-  final CGPA cgpa;
-  final TextEditingController namecontroller;
-  final TextEditingController cgpacontroller;
-  final TextEditingController crcontroller;
-  final Key key;
+  final Course course;
+
+  @override
+  _CustomCardState createState() => _CustomCardState();
+}
+
+class _CustomCardState extends State<CustomCard> {
+  TextEditingController nameController;
+  TextEditingController cgpaController;
+  TextEditingController crController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(text: widget.course.name);
+    cgpaController = TextEditingController(
+        text: widget.course.gpa == null ? "" : widget.course.gpa.toString());
+    crController = TextEditingController(
+        text: widget.course.credit == null
+            ? ""
+            : widget.course.credit.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
         child: Row(
           children: [
             Expanded(
               flex: 3,
               child: TextFormField(
-                controller: namecontroller,
-                decoration: InputDecoration(labelText: "COURSE NAME"),
+                controller: nameController,
+                decoration: InputDecoration(
+                  labelText: "COURSE NAME",
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                ),
                 onChanged: (value) {
-                  cgpa.details[index].name = value;
+                  widget.course.name = value;
                 },
               ),
             ),
@@ -38,12 +56,19 @@ class CustomCard extends StatelessWidget {
             ),
             Expanded(
               child: TextFormField(
-                controller: cgpacontroller,
+                controller: cgpaController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: "GPA"),
+                decoration: InputDecoration(
+                  labelText: "GPA",
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                ),
                 onChanged: (value) {
                   //print(value);
-                  cgpa.details[index].gpa = double.parse(value);
+                  widget.course.gpa = double.parse(value);
                 },
                 validator: (value) {
                   if (double.parse(value) > 4 && double.parse(value) < 0) {
@@ -58,11 +83,18 @@ class CustomCard extends StatelessWidget {
             ),
             Expanded(
               child: TextFormField(
-                controller: crcontroller,
+                controller: crController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: "CREDIT"),
+                decoration: InputDecoration(
+                  labelText: "CREDIT",
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                ),
                 onChanged: (value) {
-                  cgpa.details[index].credit = double.parse(value);
+                  widget.course.credit = double.parse(value);
                 },
                 validator: (value) {
                   if (value.isEmpty) {

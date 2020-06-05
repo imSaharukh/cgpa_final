@@ -30,7 +30,7 @@ class CGPA with ChangeNotifier {
     finalcgpa = totoal / totalcr;
     print("totoal $totoal");
     print("totoalcr $totalcr");
-
+    print("final gpa $finalcgpa");
     notifyListeners();
   }
 }

@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     animation: true,
                     animationDuration: 1200,
                     lineWidth: 15.0,
-                    percent: 0.4,
+                    percent: cgpa.finalcgpa * 0.25,
                     center: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -68,7 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     circularStrokeCap: CircularStrokeCap.butt,
                     backgroundColor: Colors.yellow,
-                    progressColor: Colors.red,
+                    progressColor:
+                        cgpa.finalcgpa > 3 ? Colors.green : Colors.red,
                   ),
                   Expanded(
                       child: Form(

@@ -71,7 +71,7 @@ class _CustomCardState extends State<CustomCard> {
                   widget.course.gpa = double.parse(value);
                 },
                 validator: (value) {
-                  if (double.parse(value) > 4 && double.parse(value) < 0) {
+                  if (double.parse(value) > 4 || double.parse(value) < 0) {
                     return 'can\'t more then 4';
                   }
                   return null;

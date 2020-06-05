@@ -40,41 +40,43 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Consumer<CGPA>(builder: (context, cgpa, _) {
-              return Column(
-                children: [
-                  CircularPercentIndicator(
-                    radius: 130.0,
-                    animation: true,
-                    animationDuration: 1200,
-                    lineWidth: 15.0,
-                    percent: cgpa.finalcgpa * 0.25,
-                    center: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        new Text(
-                          "Total CGPA",
-                          style: new TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 12.0),
-                        ),
-                        Text(
-                          cgpa.finalcgpa.toStringAsFixed(2),
-                        )
-                      ],
+    return Form(
+      key: _formKey,
+      child: Scaffold(
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Consumer<CGPA>(builder: (context, cgpa, _) {
+                return Column(
+                  children: [
+                    CircularPercentIndicator(
+                      radius: 130.0,
+                      animation: true,
+                      animationDuration: 1200,
+                      lineWidth: 15.0,
+                      percent: (cgpa.finalcgpa * 0.25) > 1
+                          ? 1
+                          : (cgpa.finalcgpa * 0.25),
+                      center: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          new Text(
+                            "Total CGPA",
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12.0),
+                          ),
+                          Text(
+                            cgpa.finalcgpa.toStringAsFixed(2),
+                          )
+                        ],
+                      ),
+                      circularStrokeCap: CircularStrokeCap.butt,
+                      backgroundColor: Colors.yellow,
+                      progressColor:
+                          cgpa.finalcgpa > 3 ? Colors.green : Colors.red,
                     ),
-                    circularStrokeCap: CircularStrokeCap.butt,
-                    backgroundColor: Colors.yellow,
-                    progressColor:
-                        cgpa.finalcgpa > 3 ? Colors.green : Colors.red,
-                  ),
-                  Expanded(
-                      child: Form(
-                    key: _formKey,
-                    child: ListView.builder(
+                    Expanded(
+                        child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: cgpa.courses.length,
@@ -92,45 +94,46 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         );
                       },
-                    ),
-                  )),
-                ],
-              );
-            }),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: FloatingActionButton(
-                  child: Icon(Icons.add),
-                  onPressed: () {
-                    Provider.of<CGPA>(context, listen: false).add();
-                    // print(cgpa.details.length);
-                    //  cgpa.details[indexs] = Details();
-                  },
+                    )),
+                  ],
+                );
+              }),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () {
+                      Provider.of<CGPA>(context, listen: false).add();
+                      // print(cgpa.details.length);
+                      //  cgpa.details[indexs] = Details();
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        floatingActionButton: OutlineButton(
+          onPressed: () {
+            print(_formKey.currentState.validate());
+            if (_formKey.currentState.validate()) {
+              _formKey.currentState.save();
+              var send = Provider.of<CGPA>(context, listen: false).courses;
+              Provider.of<CGPA>(context, listen: false).calculateCGPA(send);
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Text("calculate"),
+          ),
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(30.0),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      floatingActionButton: OutlineButton(
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-            _formKey.currentState.save();
-            var send = Provider.of<CGPA>(context, listen: false).courses;
-            Provider.of<CGPA>(context, listen: false).calculateCGPA(send);
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Text("calculate"),
-        ),
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(30.0),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

@@ -172,24 +172,27 @@ class _MyHomePageState extends State<MyHomePage> {
                           cgpa.finalcgpa > 3 ? Colors.green : Colors.red,
                     ),
                     Expanded(
-                        child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: cgpa.courses.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Dismissible(
-                          key: Key(
-                            cgpa.getKeyValue(index),
-                          ),
-                          onDismissed: (direction) {
-                            cgpa.remove(index);
-                            print(cgpa.courses.length);
-                          },
-                          child: CustomCard(
-                            course: cgpa.getCourse(index),
-                          ),
-                        );
-                      },
+                        child: Padding(
+                      padding: const EdgeInsets.only(bottom: 65),
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: cgpa.courses.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Dismissible(
+                            key: Key(
+                              cgpa.getKeyValue(index),
+                            ),
+                            onDismissed: (direction) {
+                              cgpa.remove(index);
+                              print(cgpa.courses.length);
+                            },
+                            child: CustomCard(
+                              course: cgpa.getCourse(index),
+                            ),
+                          );
+                        },
+                      ),
                     )),
                   ],
                 );

@@ -6,14 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import './provider/cgpa.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => CGPA()),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

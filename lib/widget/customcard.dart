@@ -1,10 +1,11 @@
 import 'package:cgpa_calculator/provider/cgpa.dart';
+
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatefulWidget {
   CustomCard({@required this.course});
 
-  final Course course;
+  final course;
 
   @override
   _CustomCardState createState() => _CustomCardState();
@@ -18,6 +19,8 @@ class _CustomCardState extends State<CustomCard> {
   @override
   void initState() {
     super.initState();
+    print("is CGPA  ${widget.course.runtimeType}");
+    print(widget.course.runtimeType == Course);
     nameController = TextEditingController(text: widget.course.name);
     cgpaController = TextEditingController(
         text: widget.course.gpa == null ? "" : widget.course.gpa.toString());
@@ -39,7 +42,9 @@ class _CustomCardState extends State<CustomCard> {
               child: TextFormField(
                 controller: nameController,
                 decoration: InputDecoration(
-                  labelText: "COURSE NAME",
+                  labelText: (widget.course.runtimeType == Course)
+                      ? "COURSE NAME"
+                      : "SEMESTER",
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -59,7 +64,8 @@ class _CustomCardState extends State<CustomCard> {
                 controller: cgpaController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  labelText: "GPA",
+                  labelText:
+                      (widget.course.runtimeType == Course) ? "GPA" : "SGPA",
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,

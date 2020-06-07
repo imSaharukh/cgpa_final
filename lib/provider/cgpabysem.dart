@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class CGPA with ChangeNotifier {
-  Map<int, Course> courses = new Map();
+class CGPAbysem with ChangeNotifier {
+  Map<int, Coursebysem> courses = new Map();
 
   int index = 0;
-  double finalcgpa = 0;
+  double finalCGPAbysem = 0;
   add() {
-    courses[index] = Course();
+    courses[index] = Coursebysem();
     index++;
     notifyListeners();
   }
@@ -19,24 +19,24 @@ class CGPA with ChangeNotifier {
   String getKeyValue(int listIndex) =>
       courses.keys.toList()[listIndex].toString();
 
-  Course getCourse(int listIndex) => courses.values.toList()[listIndex];
-  calculateCGPA(Map<int, Course> courses) {
+  Coursebysem getCourse(int listIndex) => courses.values.toList()[listIndex];
+  calculateCGPAbysem(Map<int, Coursebysem> courses) {
     double totalcr = 0;
     double totoal = 0;
     courses.forEach((key, value) {
       totalcr = totalcr + value.credit;
       totoal = totoal + (value.credit * value.gpa);
     });
-    finalcgpa = totoal / totalcr;
+    finalCGPAbysem = totoal / totalcr;
     print("totoal $totoal");
     print("totoalcr $totalcr");
-    print("final gpa $finalcgpa");
+    print("final gpa $finalCGPAbysem");
     notifyListeners();
   }
 }
 
-class Course {
-  Course({this.credit, this.gpa, this.name});
+class Coursebysem {
+  Coursebysem({this.credit, this.gpa, this.name});
 
   String name;
   double credit;

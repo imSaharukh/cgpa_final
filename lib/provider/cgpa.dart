@@ -4,7 +4,7 @@ class CGPA with ChangeNotifier {
   Map<int, Course> courses = new Map();
 
   int index = 0;
-  double finalcgpa = 0;
+  double finalCGPA = 0;
   add() {
     courses[index] = Course();
     index++;
@@ -27,10 +27,10 @@ class CGPA with ChangeNotifier {
       totalcr = totalcr + value.credit;
       totoal = totoal + (value.credit * value.gpa);
     });
-    finalcgpa = totoal / totalcr;
+    finalCGPA = totoal / totalcr;
     print("totoal $totoal");
     print("totoalcr $totalcr");
-    print("final gpa $finalcgpa");
+    print("final gpa $finalCGPA");
     notifyListeners();
   }
 }

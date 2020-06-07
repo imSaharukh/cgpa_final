@@ -1,9 +1,8 @@
 import 'package:cgpa_calculator/screens/homescreen.dart';
 import 'package:cgpa_calculator/screens/intro.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
-import './provider/cgpa.dart';
 
 void main() {
   runApp(MyApp());

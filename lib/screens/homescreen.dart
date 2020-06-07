@@ -1,6 +1,6 @@
 import 'package:cgpa_calculator/provider/cgpa.dart';
 import 'package:cgpa_calculator/provider/cgpabysem.dart';
-import 'package:cgpa_calculator/screens/BySem.dart';
+
 import 'package:cgpa_calculator/screens/normalcount.dart';
 
 import 'package:flutter/material.dart';
@@ -43,7 +43,14 @@ class _MyHomePageState extends State<MyHomePage>
         ],
         child: TabBarView(
           controller: _tabController,
-          children: [ByCourse(), BySem()],
+          children: [
+            Consumer<CGPA>(builder: (context, cgpa, _) {
+              return ByCourse(cgpa);
+            }),
+            Consumer<CGPAbysem>(builder: (context, cgpabysem, _) {
+              return ByCourse(cgpabysem);
+            }),
+          ],
         ),
       ),
     );

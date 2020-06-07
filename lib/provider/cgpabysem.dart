@@ -4,7 +4,7 @@ class CGPAbysem with ChangeNotifier {
   Map<int, Coursebysem> courses = new Map();
 
   int index = 0;
-  double finalCGPAbysem = 0;
+  double finalCGPA = 0;
   add() {
     courses[index] = Coursebysem();
     index++;
@@ -27,10 +27,10 @@ class CGPAbysem with ChangeNotifier {
       totalcr = totalcr + value.credit;
       totoal = totoal + (value.credit * value.gpa);
     });
-    finalCGPAbysem = totoal / totalcr;
+    finalCGPA = totoal / totalcr;
     print("totoal $totoal");
     print("totoalcr $totalcr");
-    print("final gpa $finalCGPAbysem");
+    print("final gpa $finalCGPA");
     notifyListeners();
   }
 }

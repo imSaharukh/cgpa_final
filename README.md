@@ -1,5 +1,7 @@
 # cgpa_calculator
 
+flutter web demo : https://cgpacals377.web.app/#/
+
 A new Flutter project.
 
 ## Getting Started
